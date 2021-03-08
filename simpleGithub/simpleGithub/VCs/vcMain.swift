@@ -4,69 +4,39 @@
 //
 //  Created by hasan milli on 7.03.2021.
 //
+// Search Repositories Page
+// This page should able to search along public repositories on github.
+// Results should be shown in tableView on this page.
+// Cells should contain avatar (or gravatar) of owner , and username and repo’s name
+// When user clicks avatar, application should open User Detail Page.
+// When user clicks anywhere except image, Repository Detail page should be shown.
+// Page Should have ability to paginate.
+//
+//
+//
 
 import UIKit
 
-class vcMain: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class vcMain: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var tblResults: UITableView!
-    
-    private var vwLoading = UIView()
-    private var indVwLoading = UIActivityIndicatorView()
     
     private var arrData:[Dictionary<String, Any>] = []
     
     private var pageNo = 1
     private var maxItemCount = 100
+    
+    private var sectionCount = 2
+    
+    private var VC_UserInfo:vcUserInfo!
+    private var VC_RepoDetail:vcRepoDetail!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //getting all Repositories data
-        getData(true)
-    }
-    /*
-    func startLoading() {
-        DispatchQueue.main.async { //running it in main queue if needed in threads
-            self.vwLoading.frame = CGRect.init(x: -50, y: -50, width: self.view.bounds.size.width+100, height: self.view.bounds.size.height + 100)
-            self.vwLoading.backgroundColor = UIColor.init(white: 0, alpha: 0.5)
-
-            self.indVwLoading.center = self.vwLoading.center
-
-            self.view.addSubview(self.vwLoading)
-            self.view.addSubview(self.indVwLoading)
-            
-            self.indVwLoading.startAnimating()
-        }
-    }
-
-    func stopLoading() {
-        DispatchQueue.main.async { //running it in main queue if needed in threads
-            self.indVwLoading.stopAnimating()
-            self.indVwLoading.removeFromSuperview()
-            self.vwLoading.removeFromSuperview()
-        }
-    }*/
-    
-    func showAlert(_ strHeader:String, strDetail:String)  {
-        let alert = UIAlertController(title: strHeader, message: strDetail, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
-              switch action.style{
-              case .default:
-                break
-
-              case .cancel:
-                    print("cancel")
-
-              case .destructive:
-                    print("destructive")
-
-
-              @unknown default:
-                fatalError()
-              }}))
-        self.present(alert, animated: true, completion: nil)
+        getData(true) //getting all Repositories data
     }
     
+    //Getting Data from endpoint of github repo list
     func getData(_ flushCurrData:Bool = false) {
         let url = URL(string: "https://api.github.com/search/repositories?q=retrofit&per_page=100&page=" + String(pageNo))!
         let session = URLSession.shared
@@ -98,9 +68,12 @@ class vcMain: UIViewController, UITableViewDelegate, UITableViewDataSource, UITe
                     print(json)
                     
                     if let dicResult = try JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] {
-                        self.maxItemCount = (dicResult["total_count"] as? Int) ?? 100
+                        self.maxItemCount = (dicResult["total_count"] as? Int) ?? self.maxItemCount
                         DispatchQueue.main.async {
                             self.arrData.append(contentsOf: dicResult["items"] as? Array ?? [])
+                            if(self.maxItemCount == self.arrData.count) {
+                                self.sectionCount = 1
+                            }
                             self.tblResults.reloadData()
                             self.isLoading = false
                         }
@@ -114,10 +87,21 @@ class vcMain: UIViewController, UITableViewDelegate, UITableViewDataSource, UITe
         task.resume()
     }
     
+    //Table Cell Button item click handle
     @IBAction func actItemClicked(_ sender: Any) {
         let lBtn = sender as! UIButton
         
-        print(arrData[lBtn.tag])
+        VC_UserInfo = self.storyboard?.instantiateViewController(withIdentifier: "vcUserInfo") as? vcUserInfo
+        
+        //getting user id and sending to user info vc (to get user info)
+        let dicData = self.arrData[lBtn.tag]
+        let dicUsr = dicData["owner"] as? Dictionary<String, Any>
+        VC_UserInfo.getData(strUserName: (dicUsr?["login"] as? String ?? ""), strUrl: (dicUsr?["repos_url"] as? String ?? ""))
+        
+        VC_UserInfo.modalPresentationStyle = .fullScreen
+        VC_UserInfo.modalTransitionStyle = .crossDissolve
+        
+        self.present(VC_UserInfo, animated: true, completion: nil)
     }
     
     //------------- TABLE VIEW -------------
@@ -126,19 +110,21 @@ class vcMain: UIViewController, UITableViewDelegate, UITableViewDataSource, UITe
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
 
-        if (offsetY > contentHeight - scrollView.frame.height * 4) && !isLoading {
+        if (offsetY + scrollView.frame.height) > contentHeight && !isLoading {
             if((pageNo + 1)*100 <= (maxItemCount - 100) ) {
                 pageNo = pageNo + 1
                 getData()
                 
             } else {
-                showAlert("", strDetail: "No more data.")
+                self.isLoading = false
+                sectionCount = 1
+                tblResults.reloadData()
             }
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return sectionCount
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
@@ -150,9 +136,10 @@ class vcMain: UIViewController, UITableViewDelegate, UITableViewDataSource, UITe
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         if indexPath.section == 0 {
             let cell:tbcell_Item = tableView.dequeueReusableCell(withIdentifier: "tbcell_Item") as! tbcell_Item
+            
+            cell.btnAvatar.setImage(UIImage.init(named: "usrImg"), for: .normal)
 
             if (indexPath.row < arrData.count) {
                 let dicData = self.arrData[indexPath.row]
@@ -177,12 +164,17 @@ class vcMain: UIViewController, UITableViewDelegate, UITableViewDataSource, UITe
 
     // method to run when table view cell is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        VC_RepoDetail = self.storyboard?.instantiateViewController(withIdentifier: "vcRepoDetail") as? vcRepoDetail
+        
+        //getting user repo url and sending to repo detail vc (to get user repos)
         let dicData = self.arrData[indexPath.row]
+        let dicUsr = dicData["owner"] as? Dictionary<String, Any>
+        VC_RepoDetail.getData(strUserName: (dicUsr?["login"] as? String ?? ""), dicRepoDetail: dicData)
         
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        VC_RepoDetail.modalPresentationStyle = .fullScreen
+        VC_RepoDetail.modalTransitionStyle = .crossDissolve
         
+        self.present(VC_RepoDetail, animated: true, completion: nil)
     }
 }
 

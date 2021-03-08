@@ -64,3 +64,58 @@ extension UIButton {
         loadImageWithUrl(url)
     }
 }
+
+extension UINavigationController {
+    func pop(transitionType type: CATransitionType = .fade, duration: CFTimeInterval = 0.3) {
+        self.addTransition(transitionType: type, duration: duration)
+        self.popViewController(animated: false)
+    }
+
+    func push(viewController vc: UIViewController, transitionType type: CATransitionType = .fade, duration: CFTimeInterval = 0.3) {
+        self.addTransition(transitionType: type, duration: duration)
+        self.pushViewController(vc, animated: false)
+    }
+
+    private func addTransition(transitionType type: CATransitionType = .fade, duration: CFTimeInterval = 0.3) {
+        let transition = CATransition()
+        transition.duration = duration
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.type = type
+        self.view.layer.add(transition, forKey: nil)
+    }
+}
+
+extension UIViewController {
+    func showAlert(_ strHeader:String, strDetail:String)  {
+        let alert = UIAlertController(title: strHeader, message: strDetail, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+              switch action.style{
+              case .default:
+                break
+
+              case .cancel:
+                    print("cancel")
+
+              case .destructive:
+                    print("destructive")
+
+
+              @unknown default:
+                fatalError()
+              }}))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func getDataWithStrUrl(_ strUrl:String, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void ) {
+        if let url = URL(string: strUrl) {
+            let session = URLSession.shared
+            let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30)
+
+            let task = session.dataTask(with: request as URLRequest, completionHandler: completionHandler)
+            task.resume()
+            
+        } else {
+            completionHandler(nil,nil,nil)
+        }
+    }
+}

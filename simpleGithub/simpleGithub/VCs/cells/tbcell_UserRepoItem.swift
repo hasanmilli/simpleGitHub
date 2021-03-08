@@ -8,8 +8,9 @@
 
 import UIKit
 
-class tbcell_loading: UITableViewCell {
-    @IBOutlet weak var indVwLoading: UIActivityIndicatorView!
+class tbcell_UserRepoItem: UITableViewCell {
+    @IBOutlet weak var lblRepoName: UILabel!
+    @IBOutlet weak var lblWatchersCount: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -17,6 +18,5 @@ class tbcell_loading: UITableViewCell {
 /*
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-    }
-*/
+    }*/
 }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D71F408D25F5518C00D3AC79 /* vcUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71F408C25F5518C00D3AC79 /* vcUserInfo.swift */; };
+		D71F409225F5519C00D3AC79 /* vcRepoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71F409125F5519C00D3AC79 /* vcRepoDetail.swift */; };
+		D71F409A25F57B2100D3AC79 /* tbcell_UserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71F409925F57B2100D3AC79 /* tbcell_UserItem.swift */; };
 		D7991D5125F4C3AD00197C00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7991D5025F4C3AD00197C00 /* AppDelegate.swift */; };
 		D7991D5325F4C3AD00197C00 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7991D5225F4C3AD00197C00 /* SceneDelegate.swift */; };
 		D7991D5825F4C3AD00197C00 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7991D5625F4C3AD00197C00 /* Main.storyboard */; };
@@ -19,6 +22,7 @@
 		D7A4EC3725F5169F003A8E3B /* tbcell_loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A4EC3525F5169F003A8E3B /* tbcell_loading.swift */; };
 		D7A4EC3F25F5289C003A8E3B /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7A4EC3E25F5289C003A8E3B /* Media.xcassets */; };
 		D7AEBF9D25F50A6100D25B7B /* extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AEBF9C25F50A6100D25B7B /* extentions.swift */; };
+		D7F2577825F5A6E1007A984C /* tbcell_UserRepoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F2577725F5A6E1007A984C /* tbcell_UserRepoItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +43,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D71F408C25F5518C00D3AC79 /* vcUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = vcUserInfo.swift; sourceTree = "<group>"; };
+		D71F409125F5519C00D3AC79 /* vcRepoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = vcRepoDetail.swift; sourceTree = "<group>"; };
+		D71F409925F57B2100D3AC79 /* tbcell_UserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tbcell_UserItem.swift; sourceTree = "<group>"; };
 		D7991D4D25F4C3AD00197C00 /* simpleGithub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = simpleGithub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7991D5025F4C3AD00197C00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D7991D5225F4C3AD00197C00 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +64,7 @@
 		D7A4EC3525F5169F003A8E3B /* tbcell_loading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tbcell_loading.swift; sourceTree = "<group>"; };
 		D7A4EC3E25F5289C003A8E3B /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		D7AEBF9C25F50A6100D25B7B /* extentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extentions.swift; sourceTree = "<group>"; };
+		D7F2577725F5A6E1007A984C /* tbcell_UserRepoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tbcell_UserRepoItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +151,8 @@
 			children = (
 				D7A4EC3325F5169F003A8E3B /* cells */,
 				D7991D8D25F4F0E500197C00 /* vcMain.swift */,
+				D71F409125F5519C00D3AC79 /* vcRepoDetail.swift */,
+				D71F408C25F5518C00D3AC79 /* vcUserInfo.swift */,
 			);
 			path = VCs;
 			sourceTree = "<group>";
@@ -151,6 +161,8 @@
 			isa = PBXGroup;
 			children = (
 				D7A4EC3425F5169F003A8E3B /* tbcell_Item.swift */,
+				D71F409925F57B2100D3AC79 /* tbcell_UserItem.swift */,
+				D7F2577725F5A6E1007A984C /* tbcell_UserRepoItem.swift */,
 				D7A4EC3525F5169F003A8E3B /* tbcell_loading.swift */,
 			);
 			path = cells;
@@ -299,8 +311,12 @@
 				D7A4EC3725F5169F003A8E3B /* tbcell_loading.swift in Sources */,
 				D7AEBF9D25F50A6100D25B7B /* extentions.swift in Sources */,
 				D7991D8E25F4F0E500197C00 /* vcMain.swift in Sources */,
+				D71F408D25F5518C00D3AC79 /* vcUserInfo.swift in Sources */,
 				D7991D5125F4C3AD00197C00 /* AppDelegate.swift in Sources */,
+				D7F2577825F5A6E1007A984C /* tbcell_UserRepoItem.swift in Sources */,
 				D7991D5325F4C3AD00197C00 /* SceneDelegate.swift in Sources */,
+				D71F409225F5519C00D3AC79 /* vcRepoDetail.swift in Sources */,
+				D71F409A25F57B2100D3AC79 /* tbcell_UserItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,7 +499,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = milli.simpleGithub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -503,7 +519,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = milli.simpleGithub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
